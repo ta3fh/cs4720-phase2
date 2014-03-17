@@ -2,6 +2,7 @@ package com.example.phase2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import com.example.phase2.user.Buddy;
 
@@ -19,12 +20,34 @@ public class BuddyListFragment extends ListFragment {
 		for(Buddy b : this.buddies) {
 			HashMap<String, Object> buddyMap = new HashMap<String, Object>();
 			buddyMap.put("username", b.getUsername());
-			buddyMap.put("distance", String.format("%f.2", b.getDistance()));
+			buddyMap.put("distance", String.format("%.2f", b.getDistance()));
 			buddyMap.put("online", true);
 			listData.add(buddyMap);
 		}
 		adapter = new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
 				BuddyListAdapter.from, BuddyListAdapter.to);
 		setListAdapter(adapter);
+	}
+	
+	public void addTestData() {
+		ArrayList<Buddy> testBuddies = new ArrayList<Buddy>();
+		testBuddies.add(new Buddy("Jonathan"));
+		testBuddies.add(new Buddy("Mary"));
+		testBuddies.add(new Buddy("Shauna"));
+		testBuddies.add(new Buddy("Alex"));
+		testBuddies.add(new Buddy("Elliot"));
+		testBuddies.add(new Buddy("Benedict"));
+		testBuddies.add(new Buddy("Susan"));
+		testBuddies.add(new Buddy("Archibald"));
+		testBuddies.add(new Buddy("Elizabeth"));
+		testBuddies.add(new Buddy("Christopher"));
+		testBuddies.add(new Buddy("Allison"));
+		testBuddies.add(new Buddy("Agnes"));
+		Random r = new Random(12);
+		for(Buddy t : testBuddies) {
+			t.setDistance(r.nextDouble() * 100);
+			t.setOnline(r.nextBoolean());
+		}
+		populateList(testBuddies);
 	}
 }
