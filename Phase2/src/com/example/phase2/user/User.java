@@ -1,6 +1,7 @@
 package com.example.phase2.user;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.location.Location;
 
@@ -27,8 +28,8 @@ public class User {
 		return result;
 	}
 	
-	public static ArrayList<Buddy> sortBuddiesByLocation() {
-		//TODO: Implement this
-		return buddies;
+	public static ArrayList<Buddy> sortBuddiesByDistance(ArrayList<Buddy> toSort) {
+		Collections.sort(toSort);
+		return toSort;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import com.example.phase2.user.Buddy;
+import com.example.phase2.user.User;
 
 import android.app.ListFragment;
 
@@ -15,7 +16,7 @@ public class BuddyListFragment extends ListFragment {
 	
 	
 	public void populateList(ArrayList<Buddy> buddies) {
-		this.buddies = buddies;
+		this.buddies = User.sortBuddiesByDistance(buddies);;
 		listData = new ArrayList<HashMap<String, Object>>();
 		for(Buddy b : this.buddies) {
 			HashMap<String, Object> buddyMap = new HashMap<String, Object>();
