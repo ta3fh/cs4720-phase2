@@ -8,12 +8,22 @@ import com.example.phase2.user.Buddy;
 import com.example.phase2.user.User;
 
 import android.app.ListFragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 public class BuddyListFragment extends ListFragment {
 	private BuddyListAdapter adapter;
 	private ArrayList<Buddy> buddies;
 	private ArrayList<HashMap<String, Object>> listData;
 	
+	@Override
+	public View onCreateView(LayoutInflater inflater, 
+			ViewGroup container, Bundle savedInstanceState) {
+		setEmptyText();
+		return super.onCreateView(inflater, container, savedInstanceState);
+	}
 	
 	public void populateFullList() {
 		adapter = formAdapter(this.buddies);
@@ -54,6 +64,14 @@ public class BuddyListFragment extends ListFragment {
 		}
 		return new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
 				BuddyListAdapter.from, BuddyListAdapter.to);
+	}
+	
+	private void setEmptyText() {
+		if(User.isLoggedIn()) {
+			setEmptyText(getString(R.string.no_registered_friends));
+		} else {
+			setEmptyText(getString(R.string.login_to_view_friends));
+		}
 	}
 	
 	public void addTestData() {
