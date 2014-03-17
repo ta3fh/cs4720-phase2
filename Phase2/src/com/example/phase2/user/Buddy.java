@@ -1,6 +1,6 @@
 package com.example.phase2.user;
 
-public class Buddy implements Comparable {
+public class Buddy implements Comparable<Buddy> {
 	private String username;
 	private boolean online;
 	private double distance;
@@ -30,11 +30,7 @@ public class Buddy implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object obj) {
-		Buddy b2 = null;
-		if(obj instanceof Buddy) {
-			b2 = (Buddy) obj;
-		}
+	public int compareTo(Buddy b2) {
 		if(this.isOnline() && b2.isOnline()) {
 			// If both are online, compare distances
 			if(this.getDistance() == b2.getDistance()) {
