@@ -41,6 +41,9 @@ public class BuddyListFragment extends ListFragment {
 	}
 	
 	public void setBuddies(ArrayList<Buddy> buddies) {
+		if(buddies.size() == 0) {
+			setEmptyText();
+		}
 		this.buddies = User.sortBuddiesByDistance(buddies);
 	}
 	
