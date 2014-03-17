@@ -5,5 +5,11 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item 
+        android:id="@+id/refresh_buddy_list"
+        android:showAsAction="always"
+        android:icon="@drawable/ic_action_refresh"
+        android:title="@string/refresh_buddy_list"
+        />
 
 </menu>

@@ -8,7 +8,7 @@ import android.location.Location;
 public class User {
 	private static String username;
 	private static Location location;
-	private static ArrayList<Buddy> buddies;
+	private static ArrayList<Buddy> buddies = new ArrayList<Buddy>();
 	private static boolean loggedIn = true;
 	
 	public static void requestBuddiesFromServer() {

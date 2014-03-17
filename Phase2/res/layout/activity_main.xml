@@ -11,18 +11,19 @@
 	    android:id="@+id/online_friends_switch_label"
 	    android:textSize="17sp"
 	    android:layout_alignParentLeft="true"
-	    android:layout_alignParentTop="true"
+	    android:layout_alignParentBottom="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:text="@string/only_display_online_friends"/>
 	<Switch
 	    android:id="@+id/online_friends_switch"
 	    android:layout_toRightOf="@+id/online_friends_switch_label"
+	    android:layout_alignParentBottom="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" />
 	<fragment 
 	    android:id="@+id/main_buddy_list"
-	    android:layout_below="@+id/online_friends_switch"
+	    android:layout_above="@+id/online_friends_switch"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:name="com.example.phase2.BuddyListFragment"/>

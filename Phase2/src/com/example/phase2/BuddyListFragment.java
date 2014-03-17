@@ -21,6 +21,7 @@ public class BuddyListFragment extends ListFragment {
 	public void populateFullList() {
 		adapter = formAdapter(this.buddies);
 		setListAdapter(adapter);
+		adapter.notifyDataSetChanged();
 	}
 	
 	public void filterListByOnline(boolean on) {
@@ -36,6 +37,7 @@ public class BuddyListFragment extends ListFragment {
 		}
 		adapter = formAdapter(toAddBuddies);
 		setListAdapter(adapter);
+		adapter.notifyDataSetChanged();
 	}
 	
 	public void setBuddies(ArrayList<Buddy> buddies) {

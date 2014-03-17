@@ -6,5 +6,6 @@
     <string name="only_display_online_friends">Only Display Online Friends: </string>
     <string name="login_to_view_friends">You must log in to view your friends</string>
     <string name="no_registered_friends">You have no registered friends</string>
+    <string name="refresh_buddy_list">Refresh Buddy List</string>
 
 </resources>
