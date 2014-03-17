@@ -15,10 +15,33 @@ public class BuddyListFragment extends ListFragment {
 	private ArrayList<HashMap<String, Object>> listData;
 	
 	
-	public void populateList(ArrayList<Buddy> buddies) {
-		this.buddies = User.sortBuddiesByDistance(buddies);;
-		listData = new ArrayList<HashMap<String, Object>>();
+	public void populateFullList() {
+		adapter = formAdapter(this.buddies);
+		setListAdapter(adapter);
+	}
+	
+	public void filterListByOnline(boolean on) {
+		ArrayList<Buddy> toAddBuddies = new ArrayList<Buddy>();
 		for(Buddy b : this.buddies) {
+			if(b.isOnline()) {
+				if(on) {
+					toAddBuddies.add(b);
+				}
+			} else if(!on) {
+				toAddBuddies.add(b);
+			}
+		}
+		adapter = formAdapter(toAddBuddies);
+		setListAdapter(adapter);
+	}
+	
+	public void setBuddies(ArrayList<Buddy> buddies) {
+		this.buddies = User.sortBuddiesByDistance(buddies);
+	}
+	
+	private BuddyListAdapter formAdapter(ArrayList<Buddy> buddyList) {
+		listData = new ArrayList<HashMap<String, Object>>();
+		for(Buddy b : buddyList) {
 			HashMap<String, Object> buddyMap = new HashMap<String, Object>();
 			buddyMap.put("username", b.getUsername());
 			if(b.isOnline()) {
@@ -29,9 +52,8 @@ public class BuddyListFragment extends ListFragment {
 			buddyMap.put("online", b.isOnline());
 			listData.add(buddyMap);
 		}
-		adapter = new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
+		return new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
 				BuddyListAdapter.from, BuddyListAdapter.to);
-		setListAdapter(adapter);
 	}
 	
 	public void addTestData() {
@@ -53,6 +75,7 @@ public class BuddyListFragment extends ListFragment {
 			t.setDistance(r.nextDouble() * 100);
 			t.setOnline(r.nextBoolean());
 		}
-		populateList(testBuddies);
+		setBuddies(testBuddies);
+		populateFullList();
 	}
 }
