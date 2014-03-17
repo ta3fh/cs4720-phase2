@@ -19,11 +19,11 @@ public class BuddyListFragment extends ListFragment {
 		for(Buddy b : this.buddies) {
 			HashMap<String, Object> buddyMap = new HashMap<String, Object>();
 			buddyMap.put("username", b.getUsername());
-			buddyMap.put("distance", b.getDistance());
+			buddyMap.put("distance", String.format("%f.2", b.getDistance()));
 			buddyMap.put("online", true);
 			listData.add(buddyMap);
 		}
-		adapter = new BuddyListAdapter(getActivity(), listData, 0,
+		adapter = new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
 				BuddyListAdapter.from, BuddyListAdapter.to);
 		setListAdapter(adapter);
 	}

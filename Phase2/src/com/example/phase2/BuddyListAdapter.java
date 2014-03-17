@@ -9,7 +9,7 @@ import android.widget.SimpleAdapter;
 public class BuddyListAdapter extends SimpleAdapter {
 	
 	public static final String[] from = {"username", "distance"};
-	public static final int[] to = {0, 0};
+	public static final int[] to = {R.id.buddy_row_username, R.id.buddy_row_distance};
 	
 	public BuddyListAdapter(Context context,
 			List<? extends Map<String, ?>> data, int resource, String[] from,
