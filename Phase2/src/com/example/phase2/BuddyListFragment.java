@@ -52,7 +52,11 @@ public class BuddyListFragment extends ListFragment {
 			} else {
 				buddyMap.put("distance", "--");
 			}
-			buddyMap.put("online", b.isOnline());
+			if(b.isOnline()) {
+				buddyMap.put("online", "online");
+			} else {
+				buddyMap.put("online", "offline");
+			}
 			listData.add(buddyMap);
 		}
 		return new BuddyListAdapter(getActivity(), listData, R.layout.buddy_list_row,
