@@ -18,13 +18,6 @@ public class BuddyListFragment extends ListFragment {
 	private ArrayList<Buddy> buddies;
 	private ArrayList<HashMap<String, Object>> listData;
 	
-	@Override
-	public View onCreateView(LayoutInflater inflater, 
-			ViewGroup container, Bundle savedInstanceState) {
-		setEmptyText();
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-	
 	public void populateFullList() {
 		adapter = formAdapter(this.buddies);
 		setListAdapter(adapter);
