@@ -47,11 +47,7 @@ public class BuddyListFragment extends ListFragment {
 		for(Buddy b : buddyList) {
 			HashMap<String, Object> buddyMap = new HashMap<String, Object>();
 			buddyMap.put("username", b.getUsername());
-			if(b.isOnline()) {
-				buddyMap.put("distance", String.format("%.2f", b.getDistance()));
-			} else {
-				buddyMap.put("distance", "--");
-			}
+			buddyMap.put("distance", String.format("%.2f", b.getDistance()));
 			if(b.isOnline()) {
 				buddyMap.put("online", "online");
 			} else {

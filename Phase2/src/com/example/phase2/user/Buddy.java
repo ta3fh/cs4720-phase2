@@ -31,26 +31,17 @@ public class Buddy implements Comparable<Buddy> {
 
 	@Override
 	public int compareTo(Buddy b2) {
-		if(this.isOnline() && b2.isOnline()) {
-			// If both are online, compare distances
-			if(this.getDistance() == b2.getDistance()) {
-				// If they have the same distance, compare usernames
-				return this.getUsername().compareTo(b2.getUsername());
-			} else {
-				// The greater one is the one that is closer (lower distance)
-				// Don't compare with subtraction because we need to return an int
-				if(this.getDistance() > b2.getDistance()) {
-					return 1;
-				} else {
-					return -1;
-				}
-			}
+		// First compare distances
+		if(this.getDistance() == b2.getDistance()) {
+			// If they have the same distance, compare usernames
+			return this.getUsername().compareTo(b2.getUsername());
 		} else {
-			// If one is offline, the greater one is the one that is online
-			if(this.isOnline()) {
-				return -1;
-			} else {
+			// The greater one is the one that is closer (lower distance)
+			// Don't compare with subtraction because we need to return an int
+			if(this.getDistance() > b2.getDistance()) {
 				return 1;
+			} else {
+				return -1;
 			}
 		}
 	}
