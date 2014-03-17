@@ -6,10 +6,13 @@
         android:id="@+id/buddy_row_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="28sp"
         android:layout_alignParentLeft="true" />
     <TextView 
         android:id="@+id/buddy_row_distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       android:layout_alignParentRight="true" />
+        android:textSize="15sp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"/>
 </RelativeLayout>
