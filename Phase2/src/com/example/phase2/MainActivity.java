@@ -72,15 +72,27 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+				try {
 		        new readJSON().execute(default_url);        
 				populateBuddyList();
+				} catch(Exception e) {
+	                Log.d("readJSON", e.getLocalizedMessage());
+				}
 			}
         	
         });
         //buddyList.addTestData();
-        buddyList.setBuddies(User.getBuddies());
-		buddyList.filterListByOnline(false);
-        buddyList.populateFullList();
+        //buddyList.setBuddies(User.getBuddies());
+        try {
+        	refreshBuddyList();
+        } catch(Exception e) {
+        	Log.d("Refresh", e.getLocalizedMessage());
+        }
+
+        
+//        new readJSON().execute(default_url);        
+//		buddyList.filterListByOnline(true);
+//        populateBuddyList();
         
     }
 
@@ -113,10 +125,13 @@ public class MainActivity extends Activity {
     }
     
     public void refreshBuddyList() {
-    	//User.requestBuddiesFromServer(default_url);
-        new readJSON().execute(default_url);  
-    	//buddyList.setBuddies(User.getBuddies());
-    	//populateBuddyList();
+    	try {
+	        new readJSON().execute(default_url);  
+	    	//buddyList.setBuddies(User.getBuddies());
+	    	populateBuddyList();
+    	} catch(Exception e) {
+            Log.d("Refresh", e.getLocalizedMessage());
+    	}
     }
     
 }
