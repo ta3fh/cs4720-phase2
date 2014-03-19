@@ -26,7 +26,7 @@ public class MainActivity extends Activity {
 	
 	public void onBackgroundTaskDataObtained(ArrayList<Buddy> buddiesToAdd) {
 		buddyList.setBuddies(buddiesToAdd);
-		buddyList.populateFullList();
+		populateBuddyList();
 	}
 	
 	public class readJSON extends AsyncTask<String, Void, String> {
@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
         });
         //buddyList.addTestData();
         buddyList.setBuddies(User.getBuddies());
+		buddyList.filterListByOnline(false);
         buddyList.populateFullList();
         
     }
@@ -104,7 +105,8 @@ public class MainActivity extends Activity {
     
     private void populateBuddyList() {
 		if(onlineSwitch.isChecked()) {
-			buddyList.filterListByOnline(true);
+			//buddyList.filterListByOnline(true);
+			buddyList.displayOnline(true);
 		} else {
 			buddyList.populateFullList();
 		}
@@ -112,7 +114,7 @@ public class MainActivity extends Activity {
     
     public void refreshBuddyList() {
     	//User.requestBuddiesFromServer(default_url);
-        new readJSON().execute(default_url);        
+        new readJSON().execute(default_url);  
     	//buddyList.setBuddies(User.getBuddies());
     	//populateBuddyList();
     }

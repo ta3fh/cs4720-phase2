@@ -40,6 +40,22 @@ public class BuddyListFragment extends ListFragment {
 		adapter.notifyDataSetChanged();
 	}
 	
+	public void displayOnline(boolean on) {
+		ArrayList<Buddy> toAddBuddies = new ArrayList<Buddy>();
+		for(Buddy b : this.buddies) {
+			if(b.isOnline()) {
+				if(on) {
+					toAddBuddies.add(b);
+				}
+			} else if(!on) {
+				// do nothing
+			}
+		}
+		adapter = formAdapter(toAddBuddies);
+		setListAdapter(adapter);
+		adapter.notifyDataSetChanged();
+	}
+	
 	public void setBuddies(ArrayList<Buddy> buddies) {
 		if(buddies.size() == 0) {
 			setEmptyText();
