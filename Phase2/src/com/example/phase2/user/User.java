@@ -9,44 +9,51 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import org.json.JSONObject;
+
+
 import android.location.Location;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
 
 public class User {
 	private static String username;
 	private static Location location;
 	private static ArrayList<Buddy> buddies = new ArrayList<Buddy>();
 	private static boolean loggedIn = true;
+	private static String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	
 	// currently just prints the output of the web service with the parameter user-id 2
-	public static void requestBuddiesFromServer() {
-		try {
-			URL url = new URL("http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2");
-			HttpURLConnection con = (HttpURLConnection) url.openConnection();
-			readStream(con.getInputStream());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void readStream(InputStream input) {
+	public static String requestBuddiesFromServer(String url_string) {
 		BufferedReader reader = null;
+		StringBuilder stringBuilder = new StringBuilder();
 		try {
-			reader = new BufferedReader(new InputStreamReader(input));
-			String line = "";
-			while ((line = reader.readLine()) != null) {
-				System.out.println(line);
-			}
-		} catch(IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch(IOException e) {
-					e.printStackTrace();
+			URL url = new URL(url_string);
+			HttpURLConnection con = (HttpURLConnection) url.openConnection();
+			try {
+				reader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				String line = "";
+				while ((line = reader.readLine()) != null) {
+					stringBuilder.append(line);
+					//System.out.println(line);
+				}
+			} catch(Exception e) {
+				Log.d("requestBuddiesFromServer", e.getLocalizedMessage());
+			} finally {
+				if (reader != null) {
+					try {
+						reader.close();
+					} catch(Exception e) {
+						Log.d("requestBuddiesFromServer", e.getLocalizedMessage());
+						//e.printStackTrace();
+					}
 				}
 			}
+		} catch(Exception e) {
+			Log.d("requestBuddiesFromServer", e.getLocalizedMessage());
 		}
+		return stringBuilder.toString();
 	}
 	
 	public static ArrayList<Buddy> getBuddies() {
