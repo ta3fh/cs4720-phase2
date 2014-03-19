@@ -1,20 +1,67 @@
 package com.example.phase2;
 
-import com.example.phase2.user.User;
+import java.util.ArrayList;
+import java.util.Random;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.example.phase2.user.Buddy;
+import com.example.phase2.user.User;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 
 public class MainActivity extends Activity {
 	private BuddyListFragment buddyList;
 	private Switch onlineSwitch;
+	private String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	
+	public void onBackgroundTaskDataObtained(ArrayList<Buddy> buddiesToAdd) {
+		buddyList.setBuddies(buddiesToAdd);
+		buddyList.populateFullList();
+	}
+	
+	public class readJSON extends AsyncTask<String, Void, String> {
+		
+		protected String doInBackground(String... urls) {
+			return User.requestBuddiesFromServer(urls[0]);
+		}
+		
+		
+		protected void onPostExecute(String result) {
+    		ArrayList<Buddy> buddiesToAdd = new ArrayList<Buddy>();
+            try {
+            	JSONArray jsonArray = new JSONArray(result);
+            	for (int i = 0; i < jsonArray.length(); i++) {
+            		JSONObject user_info = new JSONObject(jsonArray.getJSONObject(i).getString("User"));
+            		Buddy b = new Buddy(user_info.getString("username"));
+            		if (user_info.getString("online").equals("true")) {
+            			b.setOnline(true);
+            			//Toast.makeText(getBaseContext(), user_info.getString("username") + ": " + user_info.getString("online"), Toast.LENGTH_SHORT).show();
+            		} else {
+            			b.setOnline(false);
+            			//Toast.makeText(getBaseContext(), user_info.getString("username") + ": " + user_info.getString("online"), Toast.LENGTH_SHORT).show();
+            		}
+            		Random r = new Random(12);
+        			b.setDistance(r.nextDouble() * 100);
+            		buddiesToAdd.add(b);
+            	}
+            } catch (Exception e) {
+                Log.d("readJSON", e.getLocalizedMessage());
+            }  
+            MainActivity.this.onBackgroundTaskDataObtained(buddiesToAdd);       
+        }
+		
+	}
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +72,15 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onCheckedChanged(CompoundButton view, boolean isChecked) {
+		        new readJSON().execute(default_url);        
 				populateBuddyList();
 			}
         	
         });
-        buddyList.addTestData();
+        //buddyList.addTestData();
+        buddyList.setBuddies(User.getBuddies());
+        buddyList.populateFullList();
+        
     }
 
 
@@ -60,9 +111,10 @@ public class MainActivity extends Activity {
     }
     
     public void refreshBuddyList() {
-    	User.requestBuddiesFromServer();
-    	buddyList.setBuddies(User.getBuddies());
-    	populateBuddyList();
+    	//User.requestBuddiesFromServer(default_url);
+        new readJSON().execute(default_url);        
+    	//buddyList.setBuddies(User.getBuddies());
+    	//populateBuddyList();
     }
     
 }

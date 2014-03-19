@@ -22,7 +22,6 @@ public class User {
 	private static Location location;
 	private static ArrayList<Buddy> buddies = new ArrayList<Buddy>();
 	private static boolean loggedIn = true;
-	private static String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	
 	// currently just prints the output of the web service with the parameter user-id 2
 	public static String requestBuddiesFromServer(String url_string) {
