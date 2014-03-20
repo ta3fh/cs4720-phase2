@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 	private BuddyListFragment buddyList;
 	private Switch onlineSwitch;
 	private String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
+	GPSLocation gps;
 	
 	public void onBackgroundTaskDataObtained(ArrayList<Buddy> buddiesToAdd) {
 		buddyList.setBuddies(buddiesToAdd);
@@ -81,18 +82,11 @@ public class MainActivity extends Activity {
 			}
         	
         });
-        //buddyList.addTestData();
-        //buddyList.setBuddies(User.getBuddies());
         try {
         	refreshBuddyList();
         } catch(Exception e) {
         	Log.d("Refresh", e.getLocalizedMessage());
         }
-
-        
-//        new readJSON().execute(default_url);        
-//		buddyList.filterListByOnline(true);
-//        populateBuddyList();
         
     }
 
@@ -125,6 +119,14 @@ public class MainActivity extends Activity {
     }
     
     public void refreshBuddyList() {
+    	gps = new GPSLocation(MainActivity.this);
+    	if(gps.isGPSEnabled()){
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            Toast.makeText(getApplicationContext(), "Your current location \nLatitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();    
+        } else {
+            Toast.makeText(getApplicationContext(), "GPS is not enabled.", Toast.LENGTH_SHORT).show();    
+        }
     	try {
 	        new readJSON().execute(default_url);  
 	    	//buddyList.setBuddies(User.getBuddies());
