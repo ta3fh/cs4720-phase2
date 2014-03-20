@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	private BuddyListFragment buddyList;
 	private Switch onlineSwitch;
 	private EditText radius;
-	private double dist = 0;
+	private double dist = 10E6;
 	private String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	
 	public void onBackgroundTaskDataObtained(ArrayList<Buddy> buddiesToAdd) {
@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onCheckedChanged(CompoundButton view, boolean isChecked) {
 				try {
-		        new readJSON().execute(default_url);        
+		        new readJSON().execute(default_url+ "/" + dist);        
 				populateBuddyList();
 				} catch(Exception e) {
 	                Log.d("readJSON", e.getLocalizedMessage());
@@ -134,16 +134,12 @@ public class MainActivity extends Activity {
     			try {
     				dist = Double.parseDouble(radius.getText().toString());
     			} catch (NumberFormatException n) {
-    				dist = 0;
+    				dist = 10E6;
     			}
     		}
     	}
     	try {
-    		if(dist <= 0) {
-    			new readJSON().execute(default_url);  
-    		} else {
-    			new readJSON().execute(default_url + "/" + dist);
-    		}
+    		new readJSON().execute(default_url + "/" + dist);
 	    	//buddyList.setBuddies(User.getBuddies());
 	    	populateBuddyList();
     	} catch(Exception e) {
