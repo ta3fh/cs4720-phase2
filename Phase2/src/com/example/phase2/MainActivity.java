@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
             			//Toast.makeText(getBaseContext(), user_info.getString("username") + ": " + user_info.getString("online"), Toast.LENGTH_SHORT).show();
             		}
         			b.setDistance(Double.parseDouble(user_info.getString("distance")));
+        			buddiesToAdd.add(b);
             	}
             } catch (Exception e) {
                 Log.d("readJSON", e.getLocalizedMessage());
