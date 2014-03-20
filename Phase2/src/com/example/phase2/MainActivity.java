@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
@@ -22,6 +23,8 @@ import android.widget.Switch;
 public class MainActivity extends Activity {
 	private BuddyListFragment buddyList;
 	private Switch onlineSwitch;
+	private EditText radius;
+	private double dist = 0;
 	private String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	GPSLocation gps;
 	
@@ -51,9 +54,7 @@ public class MainActivity extends Activity {
             			b.setOnline(false);
             			//Toast.makeText(getBaseContext(), user_info.getString("username") + ": " + user_info.getString("online"), Toast.LENGTH_SHORT).show();
             		}
-            		Random r = new Random(12);
-        			b.setDistance(r.nextDouble() * 100);
-            		buddiesToAdd.add(b);
+        			b.setDistance(Double.parseDouble(user_info.getString("distance")));
             	}
             } catch (Exception e) {
                 Log.d("readJSON", e.getLocalizedMessage());
@@ -69,6 +70,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         buddyList = (BuddyListFragment) getFragmentManager().findFragmentById(R.id.main_buddy_list);
         onlineSwitch = (Switch) findViewById(R.id.online_friends_switch);
+        radius = (EditText) findViewById(R.id.radius);
         onlineSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -119,16 +121,29 @@ public class MainActivity extends Activity {
     }
     
     public void refreshBuddyList() {
-    	gps = new GPSLocation(MainActivity.this);
-    	if(gps.isGPSEnabled()){
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            Toast.makeText(getApplicationContext(), "Your current location \nLatitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();    
-        } else {
-            Toast.makeText(getApplicationContext(), "GPS is not enabled.", Toast.LENGTH_SHORT).show();    
-        }
+//    	gps = new GPSLocation(MainActivity.this);
+//    	if(gps.isGPSEnabled()){
+//            double latitude = gps.getLatitude();
+//            double longitude = gps.getLongitude();
+//            Toast.makeText(getApplicationContext(), "Your current location \nLatitude: " + latitude + "\nLongitude: " + longitude, Toast.LENGTH_SHORT).show();    
+//        } else {
+//            Toast.makeText(getApplicationContext(), "GPS is not enabled.", Toast.LENGTH_SHORT).show();    
+//        }
+    	if(radius != null) {
+    		if(radius.getText().toString() != "") {
+    			try {
+    				dist = Double.parseDouble(radius.getText().toString());
+    			} catch (NumberFormatException n) {
+    				dist = 0;
+    			}
+    		}
+    	}
     	try {
-	        new readJSON().execute(default_url);  
+    		if(dist <= 0) {
+    			new readJSON().execute(default_url);  
+    		} else {
+    			new readJSON().execute(default_url + "/" + dist);
+    		}
 	    	//buddyList.setBuddies(User.getBuddies());
 	    	populateBuddyList();
     	} catch(Exception e) {

@@ -7,5 +7,6 @@
     <string name="login_to_view_friends">You must log in to view your friends</string>
     <string name="no_registered_friends">You have no registered friends</string>
     <string name="refresh_buddy_list">Refresh Buddy List</string>
+    <string name="enter_radius">Enter Radius</string>
 
 </resources>
