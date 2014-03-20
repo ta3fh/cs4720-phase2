@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
@@ -22,6 +23,8 @@ import android.widget.Switch;
 public class MainActivity extends Activity {
 	private BuddyListFragment buddyList;
 	private Switch onlineSwitch;
+	private EditText radius;
+	private double dist = 0;
 	private String default_url = "http://plato.cs.virginia.edu/~cs4720s14beans/api/users/friends/2";
 	
 	public void onBackgroundTaskDataObtained(ArrayList<Buddy> buddiesToAdd) {
@@ -68,6 +71,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         buddyList = (BuddyListFragment) getFragmentManager().findFragmentById(R.id.main_buddy_list);
         onlineSwitch = (Switch) findViewById(R.id.online_friends_switch);
+        radius = (EditText) findViewById(R.id.radius);
         onlineSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 			@Override
@@ -125,8 +129,21 @@ public class MainActivity extends Activity {
     }
     
     public void refreshBuddyList() {
+    	if(radius != null) {
+    		if(radius.getText().toString() != "") {
+    			try {
+    				dist = Double.parseDouble(radius.getText().toString());
+    			} catch (NumberFormatException n) {
+    				dist = 0;
+    			}
+    		}
+    	}
     	try {
-	        new readJSON().execute(default_url);  
+    		if(dist <= 0) {
+    			new readJSON().execute(default_url);  
+    		} else {
+    			new readJSON().execute(default_url + "/" + dist);
+    		}
 	    	//buddyList.setBuddies(User.getBuddies());
 	    	populateBuddyList();
     	} catch(Exception e) {
